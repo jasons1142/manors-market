@@ -1,6 +1,7 @@
 "use client";
 
 import { useCart } from "@/context/cart-context";
+import Link from "next/link";
 
 export default function CartPage() {
   const {
@@ -92,9 +93,18 @@ export default function CartPage() {
             ))}
           </div>
 
-          <div className="border-t pt-4 flex justify-between text-xl font-bold">
-            <span>Total</span>
-            <span>${total.toFixed(2)}</span>
+          <div className="border-t pt-4 space-y-4">
+            <div className="flex justify-between text-xl font-bold">
+                <span>Total</span>
+                <span>${total.toFixed(2)}</span>
+            </div>
+
+            <Link
+                href="/checkout"
+                className="block text-center bg-black text-white p-3 rounded-lg"
+            >
+                Proceed to Checkout
+            </Link>
           </div>
         </>
       )}
