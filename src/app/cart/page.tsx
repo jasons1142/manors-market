@@ -1,0 +1,103 @@
+"use client";
+
+import { useCart } from "@/context/cart-context";
+
+export default function CartPage() {
+  const {
+    items,
+    addToCart,
+    reduceQuantity,
+    updateQuantity,
+    removeFromCart,
+    clearCart,
+  } = useCart();
+
+  const total = items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
+  return (
+    <main className="p-6 space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold">Shopping Cart</h1>
+
+        {items.length > 0 && (
+          <button
+            onClick={clearCart}
+            className="border px-4 py-2 rounded-lg"
+          >
+            Clear Cart
+          </button>
+        )}
+      </div>
+
+      {items.length === 0 ? (
+        <p>Your cart is empty.</p>
+      ) : (
+        <>
+          <div className="space-y-4">
+            {items.map((item) => (
+              <div
+                key={item.id}
+                className="border rounded-xl p-4 flex justify-between gap-4"
+              >
+                <div>
+                  <h2 className="font-semibold">{item.name}</h2>
+                  <p>${item.price.toFixed(2)} each</p>
+
+                  <div className="flex items-center gap-3 mt-3">
+                    <button
+                      onClick={() => reduceQuantity(item.id)}
+                      className="border px-3 py-1 rounded"
+                    >
+                      -
+                    </button>
+
+                    <input
+                      type="number"
+                      min="1"
+                      value={item.quantity}
+                      onChange={(e) =>
+                        updateQuantity(item.id, Number(e.target.value))
+                      }
+                      className="border rounded w-16 text-center"
+                    />
+
+                    <button
+                      onClick={() =>
+                        addToCart({
+                          ...item,
+                          quantity: 1,
+                        })
+                      }
+                      className="border px-3 py-1 rounded"
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  <button
+                    onClick={() => removeFromCart(item.id)}
+                    className="text-red-600 mt-3"
+                  >
+                    Remove
+                  </button>
+                </div>
+
+                <p className="font-bold">
+                  ${(item.price * item.quantity).toFixed(2)}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="border-t pt-4 flex justify-between text-xl font-bold">
+            <span>Total</span>
+            <span>${total.toFixed(2)}</span>
+          </div>
+        </>
+      )}
+    </main>
+  );
+}

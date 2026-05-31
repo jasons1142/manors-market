@@ -1,6 +1,7 @@
 import "./globals.css";
 import AuthSessionProvider from "@/components/providers/session-provider";
 import Navbar from "@/components/navbar";
+import { CartProvider } from "@/context/cart-context";
 
 export default function RootLayout({
   children,
@@ -12,7 +13,9 @@ export default function RootLayout({
       <body>
         <AuthSessionProvider>
             <Navbar />
-            {children}
+            <CartProvider>
+                {children}
+            </CartProvider>
         </AuthSessionProvider>
       </body>
     </html>

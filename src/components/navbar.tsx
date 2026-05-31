@@ -9,10 +9,16 @@ export default function Navbar() {
   return (
     <nav className="flex items-center justify-between p-4 border-b">
       <Link href="/" className="font-bold text-xl">
-        Manor's Market
+        Manor&apos;s Market
       </Link>
 
       <div className="flex gap-4 items-center">
+        <Link href="/products">Products</Link>
+
+        {session?.user?.role === "ADMIN" && (
+          <Link href="/dashboard/products">Dashboard</Link>
+        )}
+
         {!session ? (
           <>
             <Link href="/login">Login</Link>
@@ -21,9 +27,10 @@ export default function Navbar() {
         ) : (
           <>
             <p>{session.user.email}</p>
+            <Link href="/cart">Cart</Link>
 
             <button
-              onClick={() => signOut()}
+              onClick={() => signOut({ callbackUrl: "/" })}
               className="border px-3 py-1 rounded"
             >
               Logout
