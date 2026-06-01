@@ -82,6 +82,7 @@ export async function POST(req: Request) {
       await prisma.$transaction(async (tx) => {
         const order = await tx.order.create({
           data: {
+            userId: metadata.userId || null,
             stripeSessionId: session.id,
             total,
             customerName: metadata.customerName || "",

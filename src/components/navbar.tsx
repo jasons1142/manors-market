@@ -29,8 +29,11 @@ export default function Navbar() {
           </>
         ) : (
           <>
-            <p>{session.user.email}</p>
+
+            
+            <Link href="/account/orders">My Orders</Link>
             <Link href="/cart">Cart</Link>
+            <p>{session.user.email}</p>
 
             <button
               onClick={() => signOut({ callbackUrl: "/" })}

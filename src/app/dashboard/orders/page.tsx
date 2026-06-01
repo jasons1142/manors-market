@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 
 import GenerateLabelButton from "@/components/orders/generate-label-button";
+import UpdateOrderStatusButton from "@/components/orders/update-order-status-button";
 
 export default async function DashboardOrdersPage() {
   const session = await auth();
@@ -62,12 +63,36 @@ export default async function DashboardOrdersPage() {
                 </pre>
               </div>
 
-              <GenerateLabelButton
+            <div className="flex gap-3 flex-wrap">
+            {order.status === "PAID" && (
+                <UpdateOrderStatusButton
+                orderId={order.id}
+                nextStatus="PROCESSING"
+                label="Mark Processing"
+                />
+            )}
+
+            {order.status === "PROCESSING" && (
+                <GenerateLabelButton
                 orderId={order.id}
                 existingLabelUrl={order.labelUrl}
                 existingTrackingNumber={order.trackingNumber}
-              />
-              
+                />
+            )}
+
+            {order.status === "SHIPPED" && (
+                <UpdateOrderStatusButton
+                orderId={order.id}
+                nextStatus="DELIVERED"
+                label="Mark Delivered"
+                />
+            )}
+
+            {order.status === "DELIVERED" && (
+                <p className="font-semibold text-green-600">Delivered ✓</p>
+            )}
+            </div>
+
             </div>
           ))}
         </div>

@@ -18,8 +18,8 @@ enum Role {
 }
 
 enum OrderStatus {
-  PENDING
   PAID
+  PROCESSING
   SHIPPED
   DELIVERED
 }

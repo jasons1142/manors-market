@@ -1,8 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
+import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
+  const authSession = await auth();
+
   try {
     const body = await req.json();
 
@@ -51,13 +54,14 @@ export async function POST(req: Request) {
       }
     );
 
-    const session = await stripe.checkout.sessions.create({
+    const checkoutSession = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: lineItems,
       customer_email: customer.email,
       success_url: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/cart`,
       metadata: {
+        userId: authSession?.user?.id || "",
         customerName: customer.name,
         customerEmail: customer.email,
         phone: customer.phone || "",
@@ -71,7 +75,7 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json({ url: session.url });
+    return NextResponse.json({ url: checkoutSession.url });
   } catch (error) {
     console.error("CHECKOUT_ERROR", error);
 
