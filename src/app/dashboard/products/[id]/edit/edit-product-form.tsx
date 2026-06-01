@@ -20,6 +20,29 @@ export default function EditProductForm({ product }: { product: Product }) {
     try {
       const formData = new FormData(e.currentTarget);
   
+      let imageUrl: string | null = product.imageUrl;
+  
+      const imageFile = formData.get("image") as File;
+  
+      if (imageFile && imageFile.size > 0) {
+        const uploadData = new FormData();
+        uploadData.append("file", imageFile);
+  
+        const uploadRes = await fetch("/api/upload", {
+          method: "POST",
+          body: uploadData,
+        });
+  
+        const uploadJson = await uploadRes.json();
+  
+        if (!uploadRes.ok) {
+          setError(uploadJson.error || "Image upload failed.");
+          return;
+        }
+  
+        imageUrl = uploadJson.imageUrl;
+      }
+  
       const res = await fetch(`/api/products/${product.id}`, {
         method: "PATCH",
         headers: {
@@ -30,7 +53,7 @@ export default function EditProductForm({ product }: { product: Product }) {
           description: formData.get("description"),
           price: formData.get("price"),
           stock: formData.get("stock"),
-          imageUrl: formData.get("imageUrl"),
+          imageUrl,
         }),
       });
   
@@ -114,9 +137,9 @@ export default function EditProductForm({ product }: { product: Product }) {
         />
 
         <input
-          name="imageUrl"
-          defaultValue={product.imageUrl || ""}
-          placeholder="Image URL"
+          name="image"
+          type="file"
+          accept="image/*"
           className="w-full border rounded-lg p-3"
         />
 

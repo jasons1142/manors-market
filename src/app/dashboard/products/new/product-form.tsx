@@ -21,7 +21,30 @@ export default function ProductForm() {
     const description = formData.get("description");
     const price = formData.get("price");
     const stock = formData.get("stock");
-    const imageUrl = formData.get("imageUrl");
+    
+    let imageUrl = formData.get("imageUrl");
+
+    const imageFile = formData.get("image") as File;
+
+    if (imageFile && imageFile.size > 0) {
+    const uploadData = new FormData();
+    uploadData.append("file", imageFile);
+
+    const uploadRes = await fetch("/api/upload", {
+        method: "POST",
+        body: uploadData,
+    });
+
+    const uploadJson = await uploadRes.json();
+
+    if (!uploadRes.ok) {
+        setError(uploadJson.error || "Image upload failed.");
+        setLoading(false);
+        return;
+    }
+
+    imageUrl = uploadJson.imageUrl;
+    }
 
     const res = await fetch("/api/products", {
       method: "POST",
@@ -85,8 +108,9 @@ export default function ProductForm() {
       />
 
       <input
-        name="imageUrl"
-        placeholder="Image URL for now"
+        name="image"
+        type="file"
+        accept="image/*"
         className="w-full border rounded-lg p-3"
       />
 
