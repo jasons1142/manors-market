@@ -27,7 +27,7 @@ export default async function ProductDetailPage({
             className="w-full h-full object-cover rounded-xl"
           />
         ) : (
-          <span className="text-gray-400">No image</span>
+          <span className="text-gray-400">No Image</span>
         )}
       </div>
 

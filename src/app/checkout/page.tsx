@@ -47,7 +47,23 @@ export default function CheckoutPage() {
 
     console.log("CHECKOUT_DATA", checkoutData);
 
-    alert("Checkout data ready. Stripe comes next.");
+    const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(checkoutData),
+    });
+      
+    const data = await res.json();
+      
+    if (!res.ok) {
+        alert(data.error || "Something went wrong.");
+        setLoading(false);
+        return;
+    }
+      
+    window.location.href = data.url;
 
     setLoading(false);
   }
