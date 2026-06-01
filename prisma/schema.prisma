@@ -65,6 +65,7 @@ model Order {
 
   stripeSessionId String        @unique
   trackingNumber  String?
+  labelUrl        String?
 
   user            User?         @relation(fields: [userId], references: [id])
   items           OrderItem[]

@@ -16,7 +16,10 @@ export default function Navbar() {
         <Link href="/products">Products</Link>
 
         {session?.user?.role === "ADMIN" && (
-          <Link href="/dashboard/products">Dashboard</Link>
+            <>
+                <Link href="/dashboard/products">Dashboard</Link>
+                <Link href="/dashboard/orders">Orders</Link>
+            </>
         )}
 
         {!session ? (
