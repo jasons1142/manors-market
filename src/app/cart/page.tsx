@@ -19,9 +19,9 @@ export default function CartPage() {
   );
 
   return (
-    <main className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Shopping Cart</h1>
+    <main className="p-6 space-y-6 bg-[#f5e6c8] min-h-screen">
+      <div className="flex items-center justify-between bg-[#f5e6c8] text-green-800">
+        <h1 className="text-3xl font-bold text-green-800">Shopping Cart</h1>
 
         {items.length > 0 && (
           <button
@@ -34,16 +34,16 @@ export default function CartPage() {
       </div>
 
       {items.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <p className="text-green-800">Your cart is empty.</p>
       ) : (
         <>
-          <div className="space-y-4">
+          <div className="space-y-4 text-black">
             {items.map((item) => (
               <div
                 key={item.id}
                 className="border rounded-xl p-4 flex justify-between gap-4"
               >
-                <div>
+                <div className="text-green">
                   <h2 className="font-semibold">{item.name}</h2>
                   <p>${item.price.toFixed(2)} each</p>
 
@@ -57,11 +57,9 @@ export default function CartPage() {
 
                     <input
                       type="number"
-                      min="1"
+                      min="0"
                       value={item.quantity}
-                      onChange={(e) =>
-                        updateQuantity(item.id, Number(e.target.value))
-                      }
+                      readOnly
                       className="border rounded w-16 text-center"
                     />
 
@@ -93,7 +91,7 @@ export default function CartPage() {
             ))}
           </div>
 
-          <div className="border-t pt-4 space-y-4">
+          <div className="border-t pt-4 space-y-4 text-black">
             <div className="flex justify-between text-xl font-bold">
                 <span>Total</span>
                 <span>${total.toFixed(2)}</span>

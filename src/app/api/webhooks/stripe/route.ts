@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
+import { sendEmail } from "@/lib/email";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -79,8 +80,8 @@ export async function POST(req: Request) {
         return sum + product.price * item.quantity;
       }, 0);
 
-      await prisma.$transaction(async (tx) => {
-        const order = await tx.order.create({
+      const order = await prisma.$transaction(async (tx) => {
+        const createdOrder = await tx.order.create({
           data: {
             userId: metadata.userId || null,
             stripeSessionId: session.id,
@@ -121,7 +122,46 @@ export async function POST(req: Request) {
           });
         }
 
-        return order;
+        return createdOrder;
+      });
+
+      await sendEmail({
+        to: order.customerEmail,
+        subject: "Your Manor's Market Order Confirmation",
+        html: `
+          <h1>Thank you for your order!</h1>
+
+          <p>Hi ${order.customerName},</p>
+
+          <p>We have successfully received your order.</p>
+
+          <p>
+            <strong>Order Total:</strong>
+            $${order.total.toFixed(2)}
+          </p>
+
+          <p>
+            You can view your order history in your account anytime.
+          </p>
+
+          <p>
+            Thank you for shopping with Manor's Market!
+          </p>
+        `,
+      });
+      
+      await sendEmail({
+        to: process.env.ADMIN_EMAIL!,
+        subject: "New Manor's Market Order Received",
+        html: `
+          <h1>New Order Received</h1>
+      
+          <p><strong>Customer:</strong> ${order.customerName}</p>
+          <p><strong>Email:</strong> ${order.customerEmail}</p>
+          <p><strong>Total:</strong> $${order.total.toFixed(2)}</p>
+      
+          <p>Log in to the admin dashboard to process the order.</p>
+        `,
       });
     } catch (error) {
       console.error("ORDER_CREATE_ERROR", error);

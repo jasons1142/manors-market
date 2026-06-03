@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { shippoRequest } from "@/lib/shippo";
+import { sendEmail } from "@/lib/email";
 import { NextResponse } from "next/server";
 
 export async function POST(
@@ -125,6 +126,27 @@ export async function POST(
       labelUrl: transaction.label_url,
       status: "SHIPPED",
     },
+  });
+
+  await sendEmail({
+    to: updatedOrder.customerEmail,
+    subject: "Your Manor's Market Order Has Shipped",
+    html: `
+      <h1>Your order has shipped!</h1>
+  
+      <p>Hi ${updatedOrder.customerName},</p>
+  
+      <p>Your Manor's Market order is on the way.</p>
+  
+      <p>
+        <strong>Tracking Number:</strong>
+        ${updatedOrder.trackingNumber}
+      </p>
+  
+      <p>
+        Thank you for shopping with Manor's Market!
+      </p>
+    `,
   });
 
   return NextResponse.json({

@@ -18,7 +18,7 @@ export default async function ProductDetailPage({
   }
 
   return (
-    <main className="p-6 grid gap-8 md:grid-cols-2">
+    <main className="p-6 grid gap-8 md:grid-cols-2 bg-[#f5e6c8] text-black">
       <div className="aspect-square bg-gray-100 rounded-xl flex items-center justify-center">
         {product.imageUrl ? (
           <img
