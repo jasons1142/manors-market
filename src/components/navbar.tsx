@@ -89,6 +89,10 @@ export default function Navbar() {
               {session.user.email}
             </p>
 
+            <Link href="/cart" onClick={() => setOpen(false)}>
+                  Cart
+            </Link>
+
             <button
               onClick={() => signOut({ callbackUrl: "/" })}
               className="border px-3 py-1 rounded text-amber-800"
@@ -98,9 +102,6 @@ export default function Navbar() {
           </>
         ) : (
           <div className="flex gap-3">
-            <Link href="/cart" onClick={() => setOpen(false)}>
-                  Cart
-            </Link>
             <Link href="/login">Login</Link>
             <Link href="/register">Register</Link>
           </div>
