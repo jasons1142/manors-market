@@ -98,6 +98,9 @@ export default function Navbar() {
           </>
         ) : (
           <div className="flex gap-3">
+            <Link href="/cart" onClick={() => setOpen(false)}>
+                  Cart
+            </Link>
             <Link href="/login">Login</Link>
             <Link href="/register">Register</Link>
           </div>
