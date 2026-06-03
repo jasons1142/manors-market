@@ -9,10 +9,9 @@ export default async function ProductsPage() {
   });
 
   return (
-    <main className="p-6 space-y-6 bg-[#f5e6c8]">
+    <main className="p-6 space-y-6 bg-[#3d251e]">
       <div>
-        <h1 className="text-3xl font-bold text-green-800">Shop Manor&apos;s Market</h1>
-        <p className="text-gray-600 mt-2">
+        <p className="text-white mt-2 text-xl">
           Browse our available products.
         </p>
       </div>

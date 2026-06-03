@@ -9,18 +9,18 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="relative flex items-center justify-between p-4 border-b bg-[#DCC7A1]">
+    <nav className="relative flex items-center justify-between p-4 border-b bg-[#DCC7A6]">
       {/* Left Side - Menu */}
       <div className="relative">
         <button
           onClick={() => setOpen((prev) => !prev)}
-          className="px-4 py-2 rounded-lg text-amber-800 text-4xl"
+          className="px-4 py-2 rounded-lg text-[#3d251e] text-6xl"
         >
           ☰
         </button>
 
         {open && (
-          <div className="absolute left-0 mt-2 w-48 bg-amber-600 border rounded-lg shadow-lg p-3 flex flex-col gap-3 z-50 text-green-800 text-2xl">
+          <div className="absolute left-0 mt-2 w-48 bg-[#DCC7A6] border rounded-lg shadow-lg p-3 flex flex-col gap-3 z-50 text-[#3d251e] text-2xl">
             <Link href="/products" onClick={() => setOpen(false)}>
               Products
             </Link>
@@ -74,7 +74,12 @@ export default function Navbar() {
         href="/"
         className="absolute left-1/2 -translate-x-1/2 font-bold text-4xl text-green-800"
       >
-        Manor&apos;s Market
+        <img
+          src="/logo.png"
+          alt="Manor's Market"
+          width={150}
+          height={150}
+        />
       </Link>
 
       {/* Right Side - User Info */}
@@ -97,7 +102,7 @@ export default function Navbar() {
             </button>
           </>
         ) : (
-          <div className="flex gap-3">
+          <div className="flex gap-3 text-[#3d251e] text-xl">
             <Link href="/cart" onClick={() => setOpen(false)}>
                   Cart
             </Link>
