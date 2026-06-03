@@ -86,9 +86,16 @@ export async function POST(
     async: false,
   });
 
-  const rate = shipment.rates?.find(
-    (rate: any) => rate.provider === "USPS"
-  );
+  const rate = shipment.rates?.sort(
+    (a: any, b: any) => Number(a.amount) - Number(b.amount)
+  )[0];
+  
+  if (!rate) {
+    return NextResponse.json(
+      { error: "No shipping rates found." },
+      { status: 400 }
+    );
+  }
   
   if (!rate) {
     return NextResponse.json(
