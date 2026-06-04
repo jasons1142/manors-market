@@ -73,13 +73,13 @@ export default function ProductForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="grid space-y-4 max-w-lg place-items-center">
+    <form onSubmit={handleSubmit} className="grid space-y-4 max-w-lg place-items-center text-[#DCC7A6]">
       {error && <p className="text-red-500">{error}</p>}
 
       <input
         name="name"
         placeholder="Product name"
-        className="w-full border rounded-lg p-3 text-black"
+        className="w-full border rounded-lg p-3"
         required
       />
 

@@ -26,15 +26,15 @@ export default async function AccountOrdersPage() {
   });
 
   return (
-    <main className="p-6 space-y-6 bg-[#f5e6c8] text-black">
-      <h1 className="text-3xl font-bold">My Orders</h1>
+    <main className="p-6 space-y-6 bg-[#3d251e] text-black">
+      <h1 className="text-3xl font-bold text-red-800 items-center">My Orders</h1>
 
       {orders.length === 0 ? (
         <p>You have not placed any orders yet.</p>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-6 ">
           {orders.map((order) => (
-            <div key={order.id} className="border rounded-xl p-4 space-y-4">
+            <div key={order.id} className="border rounded-xl p-4 space-y-4 bg-[#DCC7A6]">
               <div>
                 <h2 className="font-bold">Order #{order.id}</h2>
                 <p>Status: {order.status}</p>

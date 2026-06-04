@@ -101,7 +101,7 @@ export default function EditProductForm({ product }: { product: Product }) {
   }
 
   return (
-    <div className="max-w-lg space-y-6">
+    <div className="max-w-lg space-y-6 ">
       <form onSubmit={handleUpdate} className="space-y-4">
         {error && <p className="text-red-500">{error}</p>}
 

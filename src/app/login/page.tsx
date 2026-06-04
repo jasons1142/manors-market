@@ -36,10 +36,10 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-6">
+    <main className="min-h-screen flex items-center justify-center px-6 bg-[#3d251e] text-black">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md border rounded-xl p-6 space-y-4"
+        className="w-full max-w-md border rounded-xl p-6 space-y-4 bg-[#DCC7A6]"
       >
         <h1 className="text-2xl font-bold">Login</h1>
 
@@ -48,7 +48,7 @@ export default function LoginPage() {
         <input
           type="email"
           placeholder="Email"
-          className="w-full border rounded-lg p-3"
+          className="w-full border rounded-lg p-3 text-black"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />

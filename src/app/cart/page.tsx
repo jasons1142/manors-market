@@ -19,9 +19,9 @@ export default function CartPage() {
   );
 
   return (
-    <main className="p-6 space-y-6 bg-[#f5e6c8] min-h-screen">
-      <div className="flex items-center justify-between bg-[#f5e6c8] text-green-800">
-        <h1 className="text-3xl font-bold text-green-800">Shopping Cart</h1>
+    <main className="p-6 space-y-6 bg-[#3d251e] min-h-screen">
+      <div className="flex items-center justify-between text-[#DCC7A6]">
+        <h1 className="text-3xl font-bold text-[#DCC7A6]">Shopping Cart</h1>
 
         {items.length > 0 && (
           <button
@@ -34,14 +34,14 @@ export default function CartPage() {
       </div>
 
       {items.length === 0 ? (
-        <p className="text-green-800">Your cart is empty.</p>
+        <p className="text-[#DCC7A6]">Your cart is empty.</p>
       ) : (
         <>
           <div className="space-y-4 text-black">
             {items.map((item) => (
               <div
                 key={item.id}
-                className="border rounded-xl p-4 flex justify-between gap-4"
+                className="border rounded-xl p-4 flex justify-between gap-4 bg-[#DCC7A6]"
               >
                 <div className="text-green">
                   <h2 className="font-semibold">{item.name}</h2>
@@ -91,7 +91,7 @@ export default function CartPage() {
             ))}
           </div>
 
-          <div className="border-t pt-4 space-y-4 text-black">
+          <div className="border-t pt-4 space-y-4 text-[#DCC7A6]">
             <div className="flex justify-between text-xl font-bold">
                 <span>Total</span>
                 <span>${total.toFixed(2)}</span>

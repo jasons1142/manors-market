@@ -21,7 +21,7 @@ export default async function DashboardProductsPage() {
   });
 
   return (
-    <main className="p-6 space-y-6 bg-[#f5e6c8] min-h-screen">
+    <main className="p-6 space-y-6 bg-[#3d251e] min-h-screen">
       <div className="flex items-center justify-between text-black">
         <h1 className="text-2xl font-bold">Manage Products</h1>
 
@@ -36,11 +36,11 @@ export default async function DashboardProductsPage() {
       {products.length === 0 ? (
         <p>No products yet.</p>
       ) : (
-        <div className="grid gap-4 text-black">
+        <div className="grid gap-4 text-black ">
           {products.map((product) => (
             <div
               key={product.id}
-              className="border rounded-xl p-4 flex justify-between"
+              className="border rounded-xl p-4 flex justify-between bg-[#DCC7A6]"
             >
               <div>
                 <h2 className="font-semibold">{product.name}</h2>
