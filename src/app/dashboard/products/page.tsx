@@ -23,7 +23,7 @@ export default async function DashboardProductsPage() {
   return (
     <main className="p-6 space-y-6 bg-[#3d251e] min-h-screen">
       <div className="flex items-center justify-between text-black">
-        <h1 className="text-2xl font-bold">Manage Products</h1>
+        <h1 className="text-2xl font-bold text-white">Manage Products</h1>
 
         <Link
           href="/dashboard/products/new"

@@ -10,10 +10,12 @@ export default function CheckoutPage() {
 
   const [loading, setLoading] = useState(false);
 
-  const total = items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+  const subtotal = items.reduce(
+    (sum, item) => (sum + item.price * item.quantity),
     0
   );
+
+  const total = subtotal + 5.99;
 
   useEffect(() => {
     if (items.length === 0) {
@@ -69,7 +71,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="p-6 grid gap-8 lg:grid-cols-2">
+    <main className="p-6 grid gap-8 lg:grid-cols-2 bg-[#3d251e]">
       <section>
         <h1 className="text-3xl font-bold mb-6">Checkout</h1>
 
@@ -79,7 +81,7 @@ export default function CheckoutPage() {
           <input
             name="name"
             placeholder="Full name"
-            className="w-full border rounded-lg p-3"
+            className="w-full border rounded-lg p-3 bg-[#DCC7A6] text-black"
             required
           />
 
@@ -87,14 +89,14 @@ export default function CheckoutPage() {
             name="email"
             type="email"
             placeholder="Email"
-            className="w-full border rounded-lg p-3"
+            className="w-full border rounded-lg p-3 bg-[#DCC7A6] text-black"
             required
           />
 
           <input
             name="phone"
             placeholder="Phone number"
-            className="w-full border rounded-lg p-3"
+            className="w-full border rounded-lg p-3 bg-[#DCC7A6] text-black"
           />
 
           <h2 className="text-xl font-semibold pt-4">Shipping Address</h2>
@@ -102,34 +104,34 @@ export default function CheckoutPage() {
           <input
             name="addressLine1"
             placeholder="Address line 1"
-            className="w-full border rounded-lg p-3"
+            className="w-full border rounded-lg p-3 bg-[#DCC7A6] text-black"
             required
           />
 
           <input
             name="addressLine2"
             placeholder="Address line 2"
-            className="w-full border rounded-lg p-3"
+            className="w-full border rounded-lg p-3 bg-[#DCC7A6] text-black"
           />
 
           <input
             name="city"
             placeholder="City"
-            className="w-full border rounded-lg p-3"
+            className="w-full border rounded-lg p-3 bg-[#DCC7A6] text-black"
             required
           />
 
           <input
             name="state"
             placeholder="State"
-            className="w-full border rounded-lg p-3"
+            className="w-full border rounded-lg p-3 bg-[#DCC7A6] text-black"
             required
           />
 
           <input
             name="postalCode"
             placeholder="ZIP code"
-            className="w-full border rounded-lg p-3"
+            className="w-full border rounded-lg p-3 bg-[#DCC7A6] text-black"
             required
           />
 
@@ -142,7 +144,7 @@ export default function CheckoutPage() {
         </form>
       </section>
 
-      <section className="border rounded-xl p-6 h-fit">
+      <section className="border rounded-xl p-6 h-fit bg-[#DCC7A6] text-black">
         <h2 className="text-xl font-bold mb-4">Order Summary</h2>
 
         <div className="space-y-4">
@@ -161,6 +163,9 @@ export default function CheckoutPage() {
         </div>
 
         <div className="border-t mt-4 pt-4 flex justify-between font-bold text-lg">
+          <span>Subtotal</span>
+          <span>${subtotal.toFixed(2)}</span>
+          <span>Shipping: $5.99</span>
           <span>Total</span>
           <span>${total.toFixed(2)}</span>
         </div>

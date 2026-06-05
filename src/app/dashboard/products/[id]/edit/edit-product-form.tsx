@@ -108,14 +108,14 @@ export default function EditProductForm({ product }: { product: Product }) {
         <input
           name="name"
           defaultValue={product.name}
-          className="w-full border rounded-lg p-3"
+          className="w-full border rounded-lg p-3 bg-[#DCC7A6] text-black"
           required
         />
 
         <textarea
           name="description"
           defaultValue={product.description}
-          className="w-full border rounded-lg p-3"
+          className="w-full border rounded-lg p-3 bg-[#DCC7A6] text-black"
           required
         />
 
@@ -124,7 +124,7 @@ export default function EditProductForm({ product }: { product: Product }) {
           type="number"
           step="0.01"
           defaultValue={product.price}
-          className="w-full border rounded-lg p-3"
+          className="w-full border rounded-lg p-3 bg-[#DCC7A6] text-black"
           required
         />
 
@@ -132,7 +132,7 @@ export default function EditProductForm({ product }: { product: Product }) {
           name="stock"
           type="number"
           defaultValue={product.stock}
-          className="w-full border rounded-lg p-3"
+          className="w-full border rounded-lg p-3 bg-[#DCC7A6] text-black"
           required
         />
 
@@ -140,7 +140,7 @@ export default function EditProductForm({ product }: { product: Product }) {
           name="image"
           type="file"
           accept="image/*"
-          className="w-full border rounded-lg p-3"
+          className="w-full border rounded-lg p-3 bg-[#DCC7A6] text-black"
         />
 
         <button

@@ -73,20 +73,20 @@ export default function ProductForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="grid space-y-4 max-w-lg place-items-center text-[#DCC7A6]">
+    <form onSubmit={handleSubmit} className="grid space-y-4 max-w-lg place-items-center">
       {error && <p className="text-red-500">{error}</p>}
 
       <input
         name="name"
         placeholder="Product name"
-        className="w-full border rounded-lg p-3"
+        className="w-full border rounded-lg p-3 bg-[#DCC7A6] text-black"
         required
       />
 
       <textarea
         name="description"
         placeholder="Description"
-        className="w-full border rounded-lg p-3"
+        className="w-full border rounded-lg p-3 bg-[#DCC7A6] text-black"
         required
       />
 
@@ -95,7 +95,7 @@ export default function ProductForm() {
         type="number"
         step="0.01"
         placeholder="Price"
-        className="w-full border rounded-lg p-3"
+        className="w-full border rounded-lg p-3 bg-[#DCC7A6] text-black"
         required
       />
 
@@ -103,7 +103,7 @@ export default function ProductForm() {
         name="stock"
         type="number"
         placeholder="Stock"
-        className="w-full border rounded-lg p-3"
+        className="w-full border rounded-lg p-3 bg-[#DCC7A6] text-black"
         required
       />
 
@@ -111,7 +111,7 @@ export default function ProductForm() {
         name="image"
         type="file"
         accept="image/*"
-        className="w-full border rounded-lg p-3"
+        className="w-full border rounded-lg p-3 bg-[#DCC7A6] text-black"
       />
 
       <button

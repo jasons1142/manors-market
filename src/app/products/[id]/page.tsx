@@ -18,7 +18,7 @@ export default async function ProductDetailPage({
   }
 
   return (
-    <main className="p-6 grid gap-8 md:grid-cols-2 bg-[#f5e6c8] text-black">
+    <main className="p-6 grid gap-8 md:grid-cols-2 bg-[#3d251e]">
       <div className="aspect-square bg-gray-100 rounded-xl flex items-center justify-center">
         {product.imageUrl ? (
           <img
@@ -38,7 +38,7 @@ export default async function ProductDetailPage({
           ${product.price.toFixed(2)}
         </p>
 
-        <p className="text-gray-700">{product.description}</p>
+        <p className="text-black text-2xl">{product.description}</p>
 
         {product.stock > 0 ? (
           <p className="text-green-600">In stock: {product.stock}</p>
