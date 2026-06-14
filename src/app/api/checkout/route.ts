@@ -2,9 +2,20 @@ import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
+import { checkoutRateLimit, getIp } from "@/lib/rate-limit";
 
 export async function POST(req: Request) {
   const authSession = await auth();
+
+  const ip = getIp(req);
+  const { success } = await checkoutRateLimit.limit(ip);
+
+  if (!success) {
+    return NextResponse.json(
+      { error: "Too many checkout attempts. Please try again later." },
+      { status: 429 }
+    );
+  }
 
   try {
     const body = await req.json();

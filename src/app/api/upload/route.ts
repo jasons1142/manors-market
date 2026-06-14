@@ -1,9 +1,20 @@
 import { auth } from "@/auth";
 import cloudinary from "@/lib/cloudinary";
 import { NextResponse } from "next/server";
+import { uploadRateLimit, getIp } from "@/lib/rate-limit";
 
 export async function POST(req: Request) {
   const session = await auth();
+
+  const ip = getIp(req);
+  const { success } = await uploadRateLimit.limit(ip);
+
+  if (!success) {
+    return NextResponse.json(
+      { error: "Too many upload attempts. Please try again later." },
+      { status: 429 }
+    );
+  }
 
   if (!session || session.user.role !== "ADMIN") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
