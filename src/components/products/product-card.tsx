@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Product } from "@prisma/client";
 
+export const dynamic = "force-dynamic";
+
 export default function ProductCard({ product }: { product: Product }) {
   return (
     <Link

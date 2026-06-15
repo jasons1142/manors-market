@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import AddToCartButton from "@/components/products/add-to-cart-button";
 
+export const dynamic = "force-dynamic";
+
 export default async function ProductDetailPage({
   params,
 }: {
