@@ -1,0 +1,119 @@
+"use client";
+
+import { useSearchParams, useRouter } from "next/navigation";
+import { useState } from "react";
+
+export default function VerifyEmailForm() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const emailFromUrl = searchParams.get("email") || "";
+
+  const [email, setEmail] = useState(emailFromUrl);
+  const [code, setCode] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [resending, setResending] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    setError("");
+    setLoading(true);
+
+    const res = await fetch("/api/verify-email", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, code }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      setError(data.error || "Verification failed.");
+      setLoading(false);
+      return;
+    }
+
+    router.push("/login");
+  }
+
+  async function handleResendCode() {
+    setError("");
+    setResending(true);
+
+    const res = await fetch("/api/resend-verification-code", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      setError(data.error || "Could not resend verification code.");
+      setResending(false);
+      return;
+    }
+
+    alert("Verification code sent.");
+    setResending(false);
+  }
+
+  return (
+    <main className="min-h-screen flex items-center justify-center px-6 bg-[#DCC7A6]">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-md bg-white border rounded-xl p-6 space-y-4"
+      >
+        <h1 className="text-2xl font-bold text-[#3d251e]">
+          Verify Your Email
+        </h1>
+
+        <p className="text-sm text-gray-600">
+          Enter the verification code sent to your email.
+        </p>
+
+        {error && <p className="text-red-500">{error}</p>}
+
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full border rounded-lg p-3"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+
+        <input
+          type="text"
+          placeholder="6-digit code"
+          className="w-full border rounded-lg p-3"
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          required
+        />
+
+        <button
+          disabled={loading}
+          className="w-full bg-[#3d251e] text-white rounded-lg p-3 disabled:opacity-50"
+        >
+          {loading ? "Verifying..." : "Verify Email"}
+        </button>
+
+        <button
+          type="button"
+          onClick={handleResendCode}
+          disabled={resending}
+          className="w-full border rounded-lg p-3"
+        >
+          {resending ? "Sending..." : "Resend Verification Code"}
+        </button>
+      </form>
+    </main>
+  );
+}
