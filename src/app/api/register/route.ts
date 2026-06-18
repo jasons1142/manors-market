@@ -1,10 +1,16 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/prisma";
+import { sendEmail } from "@/lib/email";
 import { registerRateLimit, getIp } from "@/lib/rate-limit";
+
+function generateCode() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
 
 export async function POST(req: Request) {
   const ip = getIp(req);
+
   const { success } = await registerRateLimit.limit(ip);
 
   if (!success) {
@@ -15,7 +21,6 @@ export async function POST(req: Request) {
   }
 
   try {
-
     const body = await req.json();
 
     const { name, email, password } = body;
@@ -27,36 +32,64 @@ export async function POST(req: Request) {
       );
     }
 
+    const normalizedEmail = email.toLowerCase().trim();
+
     const existingUser = await prisma.user.findUnique({
-      where: { email },
+      where: {
+        email: normalizedEmail,
+      },
     });
 
     if (existingUser) {
       return NextResponse.json(
-        { error: "A user with this email already exists." },
+        { error: "An account with this email already exists." },
         { status: 409 }
       );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await prisma.user.create({
+    await prisma.user.create({
       data: {
         name,
-        email,
+        email: normalizedEmail,
         password: hashedPassword,
+        emailVerified: false,
       },
+    });
+
+    const code = generateCode();
+
+    await prisma.emailVerificationCode.deleteMany({
+      where: {
+        email: normalizedEmail,
+      },
+    });
+
+    await prisma.emailVerificationCode.create({
+      data: {
+        email: normalizedEmail,
+        code,
+        expiresAt: new Date(Date.now() + 10 * 60 * 1000),
+      },
+    });
+
+    await sendEmail({
+      to: normalizedEmail,
+      subject: "Verify your Manor's Market account",
+      html: `
+        <h1>Verify your email</h1>
+        <p>Welcome to Manor's Market.</p>
+        <p>Your verification code is:</p>
+        <h2>${code}</h2>
+        <p>This code expires in 10 minutes.</p>
+      `,
     });
 
     return NextResponse.json(
       {
-        message: "User created successfully.",
-        user: {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-        },
+        message: "Account created. Please verify your email.",
+        email: normalizedEmail,
       },
       { status: 201 }
     );
