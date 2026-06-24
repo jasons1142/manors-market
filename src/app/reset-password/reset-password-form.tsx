@@ -59,7 +59,7 @@ export default function ResetPasswordForm() {
     <main className="min-h-screen flex items-center justify-center px-6 bg-[#3d251e]">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md bg-[#DCC7A6] border rounded-xl p-6 space-y-4"
+        className="w-full max-w-md bg-[#DCC7A6] border rounded-xl p-6 space-y-4 text-black"
       >
         <h1 className="text-2xl font-bold text-black">
           Reset Password
