@@ -73,6 +73,12 @@ export default function LoginPage() {
         >
           {loading ? "Logging in..." : "Login"}
         </button>
+        <a
+          href="/forgot-password"
+          className="text-sm underline"
+        >
+          Forgot Password?
+        </a>
       </form>
     </main>
   );
