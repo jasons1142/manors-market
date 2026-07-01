@@ -20,7 +20,7 @@ export default async function ProductDetailPage({
   }
 
   return (
-    <main className="p-6 grid gap-8 md:grid-cols-2 bg-[#3d251e]">
+    <main className="p-6 grid gap-8 md:grid-cols-2 bg-[#3d251e] min-h-screen">
       <div className="aspect-square bg-gray-100 rounded-xl flex items-center justify-center">
         {product.imageUrl ? (
           <img

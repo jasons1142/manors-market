@@ -11,7 +11,7 @@ export default async function ProductsPage() {
   });
 
   return (
-    <main className="p-6 space-y-6 bg-[#3d251e]">
+    <main className="p-6 space-y-6 bg-[#3d251e] min-h-screen">
       <div>
         <p className="text-white mt-2 text-xl">
           Browse our available products.
