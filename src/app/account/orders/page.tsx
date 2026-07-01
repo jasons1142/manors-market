@@ -26,7 +26,7 @@ export default async function AccountOrdersPage() {
   });
 
   return (
-    <main className="p-6 space-y-6 bg-[#3d251e] text-black">
+    <main className="p-6 space-y-6 bg-[#3d251e] text-black min-h-screen">
       <h1 className="text-3xl font-bold text-red-800 items-center">My Orders</h1>
 
       {orders.length === 0 ? (
