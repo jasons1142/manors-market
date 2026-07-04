@@ -65,9 +65,20 @@ export async function POST(req: Request) {
       }
     );
 
+    const shippingLineItem = {
+      price_data: {
+        currency: "usd",
+        product_data: {
+          name: "Shipping",
+        },
+        unit_amount: 599,
+      },
+      quantity: 1,
+    };
+
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: "payment",
-      line_items: lineItems,
+      line_items: [...lineItems, shippingLineItem],
       customer_email: customer.email,
       success_url: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/cart`,

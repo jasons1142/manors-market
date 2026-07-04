@@ -70,15 +70,18 @@ export async function POST(req: Request) {
         },
       });
 
-      const total = cartItems.reduce((sum, item) => {
+      const subtotal = cartItems.reduce((sum, item) => {
         const product = products.find((p) => p.id === item.id);
-
+      
         if (!product) {
           throw new Error("Product not found while creating order.");
         }
-
-        return (sum + product.price * item.quantity) + 5.99;
+      
+        return sum + product.price * item.quantity;
       }, 0);
+      
+      const shipping = 5.99;
+      const total = subtotal + shipping;
 
       const order = await prisma.$transaction(async (tx) => {
         const createdOrder = await tx.order.create({
