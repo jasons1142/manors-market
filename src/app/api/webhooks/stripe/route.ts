@@ -77,7 +77,7 @@ export async function POST(req: Request) {
           throw new Error("Product not found while creating order.");
         }
 
-        return sum + product.price * item.quantity;
+        return (sum + product.price * item.quantity) + 5.99;
       }, 0);
 
       const order = await prisma.$transaction(async (tx) => {
