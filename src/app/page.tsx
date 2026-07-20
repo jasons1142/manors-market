@@ -20,7 +20,7 @@ export default async function HomePage() {
   });
 
   return (
-    <main className="bg-[#3d251e]">
+    <main className="bg-[#3d251e] min-h-screen">
       <section className="px-6 py-16 text-center bg-[#3d251e]">
         <h1 className="text-4xl font-bold text-white">
           Welcome to Manor&apos;s Market
