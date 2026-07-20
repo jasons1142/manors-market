@@ -33,6 +33,13 @@ export default async function ProductsPage({
         ],
       }
     : undefined,
+    include: {
+      images: {
+        orderBy: {
+          position: "asc",
+        },
+      },
+    },
     orderBy: {
       createdAt: "desc",
     } 

@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import AddToCartButton from "@/components/products/add-to-cart-button";
+import ProductImageGallery from "@/components/products/product-image-gallery";
 
 export const dynamic = "force-dynamic";
 
@@ -13,25 +14,27 @@ export default async function ProductDetailPage({
 
   const product = await prisma.product.findUnique({
     where: { id },
+    include: {
+      images: {
+        orderBy: {
+          position: "asc",
+        },
+      },
+    },
   });
 
   if (!product) {
     notFound();
   }
 
+  const primaryImage = product.images[0]?.imageUrl;
+
   return (
     <main className="p-6 grid gap-8 md:grid-cols-2 bg-[#3d251e] min-h-screen">
-      <div className="aspect-square bg-gray-100 rounded-xl flex items-center justify-center">
-        {product.imageUrl ? (
-          <img
-            src={product.imageUrl}
-            alt={product.name}
-            className="w-full h-full object-cover rounded-xl"
-          />
-        ) : (
-          <span className="text-gray-400">No Image</span>
-        )}
-      </div>
+      <ProductImageGallery
+        images={product.images}
+        productName={product.name}
+      />
 
       <div className="space-y-4">
         <h1 className="text-3xl font-bold">{product.name}</h1>
@@ -53,7 +56,7 @@ export default async function ProductDetailPage({
             id: product.id,
             name: product.name,
             price: product.price,
-            imageUrl: product.imageUrl,
+            imageUrl: primaryImage ?? "",
         }}
         />
       </div>

@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 async function requireAdmin() {
@@ -49,7 +50,7 @@ export async function PATCH(
       description,
       price: Number(price),
       stock: Number(stock),
-      imageUrl: imageUrl || null,
+      images: imageUrl,
     },
   });
 
@@ -60,19 +61,50 @@ export async function DELETE(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const authCheck = await requireAdmin();
+  try {
+    const authCheck = await requireAdmin();
 
-  if (authCheck.error) {
-    return authCheck.error;
+    if (authCheck.error) {
+      return authCheck.error;
+    }
+
+    const { id } = await params;
+
+    await prisma.product.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({
+      message: "Product deleted successfully.",
+    });
+  } catch (error) {
+    console.error("DELETE_PRODUCT_ERROR", error);
+
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2003"
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "This product cannot be deleted because it is part of an exisiting order"
+        },
+        { status: 409 }
+      );
+    }
+
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2025"
+    ) {
+      return NextResponse.json(
+        { error: "Product not found." },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { error: "Could not delete product." },
+      { status: 500 }
+    );
   }
-
-  const { id } = await params;
-
-  await prisma.product.delete({
-    where: { id },
-  });
-
-  return NextResponse.json({
-    message: "Product deleted successfully.",
-  });
 }

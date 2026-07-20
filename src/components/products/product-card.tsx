@@ -1,18 +1,29 @@
 import Link from "next/link";
-import { Product } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
 
-export default function ProductCard({ product }: { product: Product }) {
+type ProductWithImages = Prisma.ProductGetPayload<{
+  include: {
+    images: true;
+  };
+}>;
+
+export default function ProductCard({ product }: { product: ProductWithImages }) {
+  const primaryImage = product.images[0]?.imageUrl;
+
+  console.log(product.name, product.images);
+  console.log("Primary image:", primaryImage);
+
   return (
     <Link
       href={`/products/${product.id}`}
       className="border bg-[#e5d3b3] rounded-xl p-4 hover:shadow-md transition block"
     >
       <div className="aspect-square bg-black-100 rounded-lg mb-4 flex items-center justify-center">
-        {product.imageUrl ? (
+        {primaryImage ? (
           <img
-            src={product.imageUrl}
+            src={primaryImage}
             alt={product.name}
             className="w-full h-full object-cover rounded-lg"
           />

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 export default function ProductForm() {
   const router = useRouter();
 
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -15,35 +16,34 @@ export default function ProductForm() {
     setError("");
     setLoading(true);
 
+    
     const formData = new FormData(e.currentTarget);
 
     const name = formData.get("name");
     const description = formData.get("description");
     const price = formData.get("price");
     const stock = formData.get("stock");
-    
-    let imageUrl = formData.get("imageUrl");
 
-    const imageFile = formData.get("image") as File;
+    const imageUrls: string[] = [];
 
-    if (imageFile && imageFile.size > 0) {
-    const uploadData = new FormData();
-    uploadData.append("file", imageFile);
+    for (const file of selectedFiles) {
+      const uploadData = new FormData();
+      uploadData.append("file", file);
 
-    const uploadRes = await fetch("/api/upload", {
+      const uploadRes = await fetch("/api/upload", {
         method: "POST",
         body: uploadData,
-    });
+      });
 
-    const uploadJson = await uploadRes.json();
+      const uploadJson = await uploadRes.json();
 
-    if (!uploadRes.ok) {
-        setError(uploadJson.error || "Image upload failed.");
-        setLoading(false);
-        return;
-    }
+      if (!uploadRes.ok) {
+          setError(uploadJson.error || "Image upload failed.");
+          setLoading(false);
+          return;
+      }
 
-    imageUrl = uploadJson.imageUrl;
+      imageUrls.push(uploadJson.imageUrl)
     }
 
     const res = await fetch("/api/products", {
@@ -53,7 +53,7 @@ export default function ProductForm() {
         description,
         price,
         stock,
-        imageUrl,
+        imageUrls,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -108,11 +108,31 @@ export default function ProductForm() {
       />
 
       <input
-        name="image"
+        name="images"
         type="file"
         accept="image/*"
+        multiple
+        onChange={(e) => {
+          const files = Array.from(e.target.files ?? []);
+          setSelectedFiles(files);
+        }}
         className="w-full border rounded-lg p-3 bg-[#DCC7A6] text-black"
       />
+
+      {selectedFiles.length > 0 && (
+        <div className="w-full">
+          <p className="font-medium text-black">
+            {selectedFiles.length}{" "}
+            {selectedFiles.length === 1 ? "image" : "images"} selected
+          </p>
+
+          <ul className="mt-2 space-y-1 text-sm text-gray-700">
+            {selectedFiles.map((file, index) => (
+              <li key={`${file.name}-${index}`}>{file.name}</li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <button
         disabled={loading}
