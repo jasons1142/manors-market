@@ -25,7 +25,7 @@ export default async function DashboardOrdersPage() {
   });
 
   return (
-    <main className="p-6 space-y-6 bg-[#3d251e]">
+    <main className="p-6 space-y-6 bg-[#3d251e] min-h-screen">
       <h1 className="text-3xl font-bold text-green-800">Orders</h1>
 
       {orders.length === 0 ? (
