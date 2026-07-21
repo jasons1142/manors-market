@@ -3,7 +3,7 @@ export default function Footer() {
     return (
         <footer>
             <p>
-                &copy; 
+                &copy; Manor's Market LLC
             </p>
         </footer>
     )
